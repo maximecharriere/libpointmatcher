@@ -154,13 +154,8 @@ T PointToPointErrorMinimizer<T>::getOverlap() const
 template<typename T>
 T PointToPointErrorMinimizer<T>::computeResidualError(const ErrorElements& mPts)
 {
-	//typedef typename PointMatcher<T>::Matrix Matrix;
-	
-	const Matrix deltas = mPts.reading.features - mPts.reference.features;
-	
-	// return sum of the norm of each delta
-	Matrix deltaNorms = deltas.colwise().norm();
-	return deltaNorms.sum();
+	assert(mPts.matches.rows() == 1);
+	return (mPts.weights*mPts.matches.dists.transpose())(0,0);
 }
 
 template struct PointToPointErrorMinimizer<float>;
